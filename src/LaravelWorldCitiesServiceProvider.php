@@ -17,8 +17,7 @@ class LaravelWorldCitiesServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->commands([
-                FooCommand::class,
-                BarCommand::class,
+                Commands\Download::class,
             ]);
         }
     }
