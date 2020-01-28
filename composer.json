@@ -1,7 +1,9 @@
 {
     "name": "paulintrognon/laravel-world-cities",
+    "type": "library",
     "description": "Laravel Package from which you can store and search any cities in the world based on geonames.org data",
     "keywords": ["geographical data", "countries", "cities", "laravel"],
+    "homepage": "https://github.com/paulintrognon/laravel-world-cities",
     "license": "MIT",
     "authors": [
         {
@@ -11,8 +13,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "php": ">=5.5.9",
-        "illuminate/support": "~5.0"
+        "php": ">=5.5.9"
     },
     "autoload": {
         "psr-4": {
