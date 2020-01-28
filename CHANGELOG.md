@@ -1,3 +1,3 @@
-# v0.1.0
+# v1.0.0
 
-- Add lwc_cities table migration
+First version : adds lwc_cities table and populates it with cities.
