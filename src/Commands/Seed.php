@@ -5,6 +5,7 @@ namespace PaulinTrognon\LaravelWorldCities\Commands;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use PaulinTrognon\LaravelWorldCities\Models\LwcCities;
+use PaulinTrognon\LaravelWorldCities\Models\LwcAdminZone;
 
 class Seed extends Command
 {
@@ -47,6 +48,7 @@ class Seed extends Command
         $progressBar = new ProgressBar($this->output, 100);
 
         $cities = [];
+        $adminZones = [];
 
         $i = 0;
         while (($line = fgets($handle)) !== false)
@@ -59,24 +61,47 @@ class Seed extends Command
             // Convert TAB sepereted line to array
             $line = explode("\t", $line);
 
-            if ($line[7] === 'PPL') {
-                $cities[] = [
-                    'id' => $line[0],
-                    'name' => trim($line[1]),
-                    'country_iso2' => $line[8],
-                    'admin1' => $line[10] ?? '',
-                    'admin2' => $line[11] ?? '',
-                    'admin3' => $line[12] ?? '',
-                    'admin4' => $line[13] ?? '',
-                    'latitude' => $line[4],
-                    'longitude' => $line[5],
-                ];
-                $i++;
+            switch ($line[7]) {
+                case 'ADM1':
+                case 'ADM2':
+                case 'ADM3':
+                case 'ADM4':
+                    $adminZones[] = [
+                        'id' => $line[0],
+                        'name' => trim($line[1]),
+                        'country_iso2' => $line[8],
+                        'type' => strtolower($line[7]),
+                        'adm1' => $line[10] ?? '',
+                        'adm2' => $line[11] ?? '',
+                        'adm3' => $line[12] ?? '',
+                        'adm4' => $line[13] ?? '',
+                        'latitude' => $line[4],
+                        'longitude' => $line[5],
+                    ];
+                    $i++;
+                break;
+                
+                case 'PPL':
+                    $cities[] = [
+                        'id' => $line[0],
+                        'name' => trim($line[1]),
+                        'country_iso2' => $line[8],
+                        'adm1' => $line[10] ?? '',
+                        'adm2' => $line[11] ?? '',
+                        'adm3' => $line[12] ?? '',
+                        'adm4' => $line[13] ?? '',
+                        'latitude' => $line[4],
+                        'longitude' => $line[5],
+                    ];
+                    $i++;
+                break;
             }
 
             if ($i > 5000) {
                 $this->insertCities($cities);
+                $this->insertAdminZones($adminZones);
                 $cities = [];
+                $adminZones = [];
                 $i = 0;
             }
 
@@ -84,7 +109,9 @@ class Seed extends Command
             $progressBar->setProgress($progress);
         }
 
+
         $this->insertCities($cities);
+        $this->insertAdminZones($adminZones);
 
         $progressBar->finish();
 
@@ -98,6 +125,15 @@ class Seed extends Command
             LwcCities::destroy($ids);
         }
         LwcCities::insert($cities);
+    }
+
+    public function insertAdminZones(array $adminZones)
+    {
+        $ids = array_column($adminZones, 'id');
+        if (count($ids) > 0) {
+            LwcAdminZone::destroy($ids);
+        }
+        LwcAdminZone::insert($adminZones);
     }
 
     private function getFiles()

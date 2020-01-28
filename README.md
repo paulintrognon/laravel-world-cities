@@ -22,7 +22,7 @@ php artisan lwc:download --countries=US,GB
 
 ### Insert the cities in the database
 
-First, you need to migrate to create the new `lwc_cities` table:
+First, you need to migrate to create the new `lwc_cities` and `lwc_admin_zones` table:
 
 ```
 php artisan migrate
@@ -37,3 +37,9 @@ This command will only work if you have not specified any countries in previous 
 ```
 php artisan lwc:seed --countries=US,GB
 ```
+
+## Usage
+
+Cities are stored in the `lwc_cities` table, under the Laravel Model `PaulinTrognon\LaravelWorldCities\Models\LwcCities`
+
+Administrative zones are stored in the `lwc_admin_zones` table, under the Laravel Model `PaulinTrognon\LaravelWorldCities\Models\LwcAdminZones`
