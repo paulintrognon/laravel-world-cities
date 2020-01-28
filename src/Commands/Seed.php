@@ -82,6 +82,12 @@ class Seed extends Command
                 break;
                 
                 case 'PPL':
+                case 'PPLA':
+                case 'PPLA2':
+                case 'PPLA3':
+                case 'PPLA4':
+                case 'PPLA5':
+                case 'PPLC':
                     $cities[] = [
                         'id' => $line[0],
                         'name' => trim($line[1]),
