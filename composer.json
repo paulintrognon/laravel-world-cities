@@ -19,5 +19,12 @@
         "psr-4": {
             "Ckcnet\\LaravelWorldCities\\": "src/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "PaulinTrognon\\LaravelWorldCities\\LaravelWorldCitiesServiceProvider"
+            ]
+        }
     }
 }
