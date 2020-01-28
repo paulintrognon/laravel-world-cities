@@ -17,7 +17,14 @@
     },
     "autoload": {
         "psr-4": {
-            "Ckcnet\\LaravelWorldCities\\": "src/"
+            "PaulinTrognon\\LaravelWorldCities\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "PaulinTrognon\\LaravelWorldCities\\LaravelWorldCitiesServiceProvider"
+            ]
         }
     }
 }
