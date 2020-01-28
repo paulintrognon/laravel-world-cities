@@ -39,7 +39,7 @@ class Seed extends Command
 
     private function seed(string $fileName)
     {
-        $this->info("About to seed $fileName");
+        $this->info("Seeding $fileName");
 
         $handle = fopen($fileName, 'r');
         $filesize = filesize($fileName);
@@ -61,6 +61,7 @@ class Seed extends Command
 
             if ($line[7] === 'PPL') {
                 $cities[] = [
+                    'id' => $line[0],
                     'name' => trim($line[1]),
                     'country_iso2' => $line[8],
                     'admin1' => $line[10] ?? '',
@@ -73,8 +74,8 @@ class Seed extends Command
                 $i++;
             }
 
-            if ($i > 10000) {
-                LwcCities::insert($cities);
+            if ($i > 5000) {
+                $this->insertCities($cities);
                 $cities = [];
                 $i = 0;
             }
@@ -83,15 +84,25 @@ class Seed extends Command
             $progressBar->setProgress($progress);
         }
 
-        LwcCities::insert($cities);
+        $this->insertCities($cities);
 
         $progressBar->finish();
+
+        $this->info("$fileName Done.");
+    }
+
+    private function insertCities(array $cities)
+    {
+        $ids = array_column($cities, 'id');
+        if (count($ids) > 0) {
+            LwcCities::destroy($ids);
+        }
+        LwcCities::insert($cities);
     }
 
     private function getFiles()
     {
         $countries = $this->option('countries');
-        $this->info($countries);
 
         if ($countries == 'all') {
             return [storage_path('app/geo/allCountries.txt')];
