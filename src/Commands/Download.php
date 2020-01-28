@@ -18,7 +18,7 @@ class Download extends Command
      *
      * @var string
      */
-    protected $description = 'Download cities data from geonames.org. By default will download for all countries.';
+    protected $description = 'Download cities data from geonames.org. --countries=FR,IT to specify specific countries.';
 
     /**
      * Execute the console command.
@@ -28,10 +28,12 @@ class Download extends Command
     {
         $filesToDownload = $this->getFilesToDownload();
 
+        \Storage::makeDirectory('geo');
+
         foreach ($filesToDownload as $fileName) {
             $source = "http://download.geonames.org/export/dump/$fileName";
-            $target = storage_path("geo/$fileName");
-            $targetTxt = storage_path('geo/' . preg_replace('/\.zip/', '.txt', $fileName));
+            $target = storage_path("app/geo/$fileName");
+            $targetTxt = storage_path('app/geo/' . preg_replace('/\.zip/', '.txt', $fileName));
 
             $this->info(" Source file {$source}" . PHP_EOL . " Target file {$targetTxt}");
 

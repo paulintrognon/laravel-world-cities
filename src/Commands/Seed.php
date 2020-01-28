@@ -3,6 +3,8 @@
 namespace PaulinTrognon\LaravelWorldCities\Commands;
 
 use Illuminate\Console\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
+use PaulinTrognon\LaravelWorldCities\Models\LwcCities;
 
 class Seed extends Command
 {
@@ -18,7 +20,7 @@ class Seed extends Command
      *
      * @var string
      */
-    protected $description = 'Inserts all cities in the database.';
+    protected $description = 'Inserts all cities in the database. --countries=FR,IT to specify specific countries.';
 
     /**
      * Execute the console command.
@@ -38,6 +40,47 @@ class Seed extends Command
     private function seed(string $fileName)
     {
         $this->info("About to seed $fileName");
+
+        $handle = fopen($fileName, 'r');
+        $filesize = filesize($fileName);
+
+        $progressBar = new ProgressBar($this->output, 100);
+
+        $cities = [];
+
+        $i = 0;
+        while (($line = fgets($handle)) !== false)
+        {
+            // ignore empty lines and comments
+            if (! $line || $line === '' || strpos($line, '#') === 0) {
+                continue;
+            }
+
+            // Convert TAB sepereted line to array
+            $line = explode("\t", $line);
+
+            if ($line[7] === 'PPL') {
+                $cities[] = [
+                    'name' => trim($line[1]),
+                    'latitude' => $line[4],
+                    'longitude' => $line[5],
+                ];
+                $i++;
+            }
+
+            if ($i > 10000) {
+                LwcCities::insert($cities);
+                $cities = [];
+                $i = 0;
+            }
+
+            $progress = ftell($handle) / $filesize * 100;
+            $progressBar->setProgress($progress);
+        }
+
+        LwcCities::insert($cities);
+
+        $progressBar->finish();
     }
 
     private function getFiles()

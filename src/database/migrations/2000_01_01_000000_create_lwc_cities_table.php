@@ -15,6 +15,9 @@ class CreateLwcCitiesTable extends Migration
     {
         Schema::create('lwc_cities', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('name');
+            $table->decimal('latitude', 10, 7);
+            $table->decimal('longitude', 10, 7);
             $table->timestamps();
         });
     }
