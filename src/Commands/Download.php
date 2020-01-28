@@ -60,7 +60,6 @@ class Download extends Command
     private function getFilesToDownload()
     {
         $countries = $this->option('countries');
-        $this->info($countries);
 
         if ($countries == 'all') {
             return ['allCountries.zip'];
