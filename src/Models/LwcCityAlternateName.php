@@ -4,9 +4,9 @@ namespace PaulinTrognon\LaravelWorldCities\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class LwcAdminZone extends Model
+class LwcCityAlternateName extends Model
 {
-    protected $table = 'lwc_admin_zones';
+    protected $table = 'lwc_city_alternate_names';
 
     /**
      * The attributes that are mass assignable.
@@ -17,8 +17,8 @@ class LwcAdminZone extends Model
 
     // RELATIONS
 
-    public function alternateNames()
+    public function city()
     {
-        return $this->hasMany('PaulinTrognon\LaravelWorldCities\Models\LwcAdminZoneAlternateName');
+        return $this->belongsTo('PaulinTrognon\LaravelWorldCities\Models\LwcCity');
     }
 }

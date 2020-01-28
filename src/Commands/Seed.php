@@ -5,7 +5,9 @@ namespace PaulinTrognon\LaravelWorldCities\Commands;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use PaulinTrognon\LaravelWorldCities\Models\LwcCities;
+use PaulinTrognon\LaravelWorldCities\Models\LwcCityAlternateName;
 use PaulinTrognon\LaravelWorldCities\Models\LwcAdminZone;
+use PaulinTrognon\LaravelWorldCities\Models\LwcAdminZoneAlternateName;
 
 class Seed extends Command
 {
@@ -48,13 +50,15 @@ class Seed extends Command
         $progressBar = new ProgressBar($this->output, 100);
 
         $cities = [];
+        $cityAlternateNames = [];
         $adminZones = [];
+        $adminZoneAlternateNames = [];
 
         $i = 0;
         while (($line = fgets($handle)) !== false)
         {
             // ignore empty lines and comments
-            if (! $line || $line === '' || strpos($line, '#') === 0) {
+            if (! $line || $line === '' || strpos($line, '#') === 0 || trim($line[0]) === '') {
                 continue;
             }
 
@@ -79,6 +83,16 @@ class Seed extends Command
                         'longitude' => $line[5],
                     ];
                     $i++;
+                    foreach (explode(',', $line[3]) as $alternateName) {
+                        if (trim($alternateName) === '') {
+                            continue;
+                        }
+                        $adminZoneAlternateNames[] = [
+                            'admin_zone_id' => $line[0],
+                            'name' => $alternateName,
+                        ];
+                        $i++;
+                    }
                 break;
                 
                 case 'PPL':
@@ -100,14 +114,28 @@ class Seed extends Command
                         'longitude' => $line[5],
                     ];
                     $i++;
+                    foreach (explode(',', $line[3]) as $alternateName) {
+                        if (trim($alternateName) === '') {
+                            continue;
+                        }
+                        $cityAlternateNames[] = [
+                            'city_id' => $line[0],
+                            'name' => $alternateName,
+                        ];
+                        $i++;
+                    }
                 break;
             }
 
             if ($i > 5000) {
                 $this->insertCities($cities);
                 $this->insertAdminZones($adminZones);
+                $this->insertCityAlternateNames($cityAlternateNames);
+                $this->insertAdminZoneAlternateNames($adminZoneAlternateNames);
                 $cities = [];
                 $adminZones = [];
+                $cityAlternateNames = [];
+                $adminZoneAlternateNames = [];
                 $i = 0;
             }
 
@@ -118,6 +146,8 @@ class Seed extends Command
 
         $this->insertCities($cities);
         $this->insertAdminZones($adminZones);
+        $this->insertCityAlternateNames($cityAlternateNames);
+        $this->insertAdminZoneAlternateNames($adminZoneAlternateNames);
 
         $progressBar->finish();
 
@@ -140,6 +170,24 @@ class Seed extends Command
             LwcAdminZone::destroy($ids);
         }
         LwcAdminZone::insert($adminZones);
+    }
+
+    private function insertCityAlternateNames(array $cityAlternateNames)
+    {
+        $ids = array_column($cityAlternateNames, 'city_id');
+        if (count($ids) > 0) {
+            LwcCityAlternateName::whereIn('city_id', $ids)->delete();
+        } 
+        LwcCityAlternateName::insert($cityAlternateNames);
+    }
+
+    public function insertAdminZoneAlternateNames(array $adminZoneAlternateNames)
+    {
+        $ids = array_column($adminZoneAlternateNames, 'admin_zone_id');
+        if (count($ids) > 0) {
+            LwcAdminZoneAlternateName::whereIn('admin_zone_id', $ids)->delete();
+        } 
+        LwcAdminZoneAlternateName::insert($adminZoneAlternateNames);
     }
 
     private function getFiles()

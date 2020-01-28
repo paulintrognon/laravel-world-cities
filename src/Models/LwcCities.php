@@ -14,4 +14,11 @@ class LwcCities extends Model
      * @var array
      */
     protected $guarded = ['id'];
+
+    // RELATIONS
+
+    public function alternateNames()
+    {
+        return $this->hasMany('PaulinTrognon\LaravelWorldCities\Models\LwcCityAlternateName');
+    }
 }
