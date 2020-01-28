@@ -26,9 +26,6 @@ class Download extends Command
      */
     public function handle()
     {
-        $countries = $this->option('countries');
-        $this->info($countries);
-
         $filesToDownload = $this->getFilesToDownload();
 
         foreach ($filesToDownload as $fileName) {
