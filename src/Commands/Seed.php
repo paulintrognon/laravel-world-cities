@@ -61,50 +61,54 @@ class Seed extends Command
             // Convert TAB sepereted line to array
             $line = explode("\t", $line);
 
-            // Admin zone
-            if (
-                $line[7] === 'ADM1'
-                || $line[7] === 'ADM2'
-                || $line[7] === 'ADM3'
-                || $line[7] === 'ADM4'
-            ) {
-                $adminZones[] = [
-                    'id' => $line[0],
-                    'name' => trim($line[1]),
-                    'country_iso2' => $line[8],
-                    'type' => strtolower($line[7]),
-                    'code' => $line[9],
-                    'latitude' => $line[4],
-                    'longitude' => $line[5],
-                ]; 
-            }
-
-            // City
-            else if ($line[7] === 'PPL') {
-                $cities[] = [
-                    'id' => $line[0],
-                    'name' => trim($line[1]),
-                    'country_iso2' => $line[8],
-                    'adm1' => $line[10] ?? '',
-                    'adm2' => $line[11] ?? '',
-                    'adm3' => $line[12] ?? '',
-                    'adm4' => $line[13] ?? '',
-                    'latitude' => $line[4],
-                    'longitude' => $line[5],
-                ];
-                $i++;
+            switch ($line[7]) {
+                case 'ADM1':
+                case 'ADM2':
+                case 'ADM3':
+                case 'ADM4':
+                    $adminZones[] = [
+                        'id' => $line[0],
+                        'name' => trim($line[1]),
+                        'country_iso2' => $line[8],
+                        'type' => strtolower($line[7]),
+                        'adm1' => $line[10] ?? '',
+                        'adm2' => $line[11] ?? '',
+                        'adm3' => $line[12] ?? '',
+                        'adm4' => $line[13] ?? '',
+                        'latitude' => $line[4],
+                        'longitude' => $line[5],
+                    ];
+                    $i++;
+                break;
+                
+                case 'PPL':
+                    $cities[] = [
+                        'id' => $line[0],
+                        'name' => trim($line[1]),
+                        'country_iso2' => $line[8],
+                        'adm1' => $line[10] ?? '',
+                        'adm2' => $line[11] ?? '',
+                        'adm3' => $line[12] ?? '',
+                        'adm4' => $line[13] ?? '',
+                        'latitude' => $line[4],
+                        'longitude' => $line[5],
+                    ];
+                    $i++;
+                break;
             }
 
             if ($i > 5000) {
                 $this->insertCities($cities);
                 $this->insertAdminZones($adminZones);
                 $cities = [];
+                $adminZones = [];
                 $i = 0;
             }
 
             $progress = ftell($handle) / $filesize * 100;
             $progressBar->setProgress($progress);
         }
+
 
         $this->insertCities($cities);
         $this->insertAdminZones($adminZones);
