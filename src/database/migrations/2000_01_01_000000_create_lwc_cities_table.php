@@ -23,7 +23,6 @@ class CreateLwcCitiesTable extends Migration
             $table->string('admin4', 20);
             $table->decimal('latitude', 10, 7);
             $table->decimal('longitude', 10, 7);
-            $table->timestamps();
         });
     }
 
