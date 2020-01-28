@@ -14,4 +14,6 @@ class LwcCities extends Model
      * @var array
      */
     protected $guarded = ['id'];
+
+    public $timestamps = true;
 }

@@ -62,6 +62,11 @@ class Seed extends Command
             if ($line[7] === 'PPL') {
                 $cities[] = [
                     'name' => trim($line[1]),
+                    'country_iso2' => $line[8],
+                    'admin1' => $line[10] ?? '',
+                    'admin2' => $line[11] ?? '',
+                    'admin3' => $line[12] ?? '',
+                    'admin4' => $line[13] ?? '',
                     'latitude' => $line[4],
                     'longitude' => $line[5],
                 ];
@@ -89,14 +94,14 @@ class Seed extends Command
         $this->info($countries);
 
         if ($countries == 'all') {
-            return ['allCountries.zip'];
+            return [storage_path('app/geo/allCountries.txt')];
         }
 
         $countries = explode(',', $countries);        
     
         $files = [];
         foreach ($countries as $country) {
-            $files[] = "$country.zip";
+            $files[] = storage_path("app/geo/$country.txt");
         }
 
         return $files;
