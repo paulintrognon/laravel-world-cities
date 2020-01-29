@@ -15,10 +15,10 @@ class CreateLwcAdminZoneAlternateNamesTable extends Migration
     {
         Schema::create('lwc_admin_zone_alternate_names', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('admin_zone_id');
+            $table->unsignedBigInteger('lwc_admin_zone_id');
             $table->string('name', 200);
 
-            $table->foreign('admin_zone_id')->references('id')->on('lwc_admin_zones')->onDelete('cascade');
+            $table->foreign('lwc_admin_zone_id')->references('id')->on('lwc_admin_zones')->onDelete('cascade');
         });
     }
 

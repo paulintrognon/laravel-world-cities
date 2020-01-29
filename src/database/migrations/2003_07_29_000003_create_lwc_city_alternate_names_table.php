@@ -15,10 +15,10 @@ class CreateLwcCityAlternateNamesTable extends Migration
     {
         Schema::create('lwc_city_alternate_names', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('city_id');
+            $table->unsignedBigInteger('lwc_city_id');
             $table->string('name', 200);
 
-            $table->foreign('city_id')->references('id')->on('lwc_cities')->onDelete('cascade');
+            $table->foreign('lwc_city_id')->references('id')->on('lwc_cities')->onDelete('cascade');
         });
     }
 

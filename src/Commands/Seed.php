@@ -88,7 +88,7 @@ class Seed extends Command
                             continue;
                         }
                         $adminZoneAlternateNames[] = [
-                            'admin_zone_id' => $line[0],
+                            'lwc_admin_zone_id' => $line[0],
                             'name' => $alternateName,
                         ];
                         $i++;
@@ -119,7 +119,7 @@ class Seed extends Command
                             continue;
                         }
                         $cityAlternateNames[] = [
-                            'city_id' => $line[0],
+                            'lwc_city_id' => $line[0],
                             'name' => $alternateName,
                         ];
                         $i++;
@@ -174,18 +174,18 @@ class Seed extends Command
 
     private function insertCityAlternateNames(array $cityAlternateNames)
     {
-        $ids = array_column($cityAlternateNames, 'city_id');
+        $ids = array_column($cityAlternateNames, 'lwc_city_id');
         if (count($ids) > 0) {
-            LwcCityAlternateName::whereIn('city_id', $ids)->delete();
+            LwcCityAlternateName::whereIn('lwc_city_id', $ids)->delete();
         } 
         LwcCityAlternateName::insert($cityAlternateNames);
     }
 
     public function insertAdminZoneAlternateNames(array $adminZoneAlternateNames)
     {
-        $ids = array_column($adminZoneAlternateNames, 'admin_zone_id');
+        $ids = array_column($adminZoneAlternateNames, 'lwc_admin_zone_id');
         if (count($ids) > 0) {
-            LwcAdminZoneAlternateName::whereIn('admin_zone_id', $ids)->delete();
+            LwcAdminZoneAlternateName::whereIn('lwc_admin_zone_id', $ids)->delete();
         } 
         LwcAdminZoneAlternateName::insert($adminZoneAlternateNames);
     }
