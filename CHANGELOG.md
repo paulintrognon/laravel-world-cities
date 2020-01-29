@@ -1,4 +1,9 @@
-## v2.1.1
+## v2.2.0
+
+- Add select2 selection plugin support
+- Fix relationships
+
+### v2.1.1
 
 - Fix Model Name Error
 
