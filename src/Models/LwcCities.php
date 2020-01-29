@@ -4,7 +4,7 @@ namespace PaulinTrognon\LaravelWorldCities\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class LwcCities extends Model
+class LwcCity extends Model
 {
     protected $table = 'lwc_cities';
 

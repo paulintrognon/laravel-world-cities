@@ -4,7 +4,7 @@ namespace PaulinTrognon\LaravelWorldCities\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
-use PaulinTrognon\LaravelWorldCities\Models\LwcCities;
+use PaulinTrognon\LaravelWorldCities\Models\LwcCity;
 use PaulinTrognon\LaravelWorldCities\Models\LwcCityAlternateName;
 use PaulinTrognon\LaravelWorldCities\Models\LwcAdminZone;
 use PaulinTrognon\LaravelWorldCities\Models\LwcAdminZoneAlternateName;
@@ -158,9 +158,9 @@ class Seed extends Command
     {
         $ids = array_column($cities, 'id');
         if (count($ids) > 0) {
-            LwcCities::destroy($ids);
+            LwcCity::destroy($ids);
         }
-        LwcCities::insert($cities);
+        LwcCity::insert($cities);
     }
 
     public function insertAdminZones(array $adminZones)

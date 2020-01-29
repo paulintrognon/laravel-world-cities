@@ -40,6 +40,6 @@ php artisan lwc:seed --countries=US,GB
 
 ## Usage
 
-Cities are stored in the `lwc_cities` table, under the Laravel Model `PaulinTrognon\LaravelWorldCities\Models\LwcCities`
+Cities are stored in the `lwc_cities` table, under the Laravel Model `PaulinTrognon\LaravelWorldCities\Models\LwcCity`
 
 Administrative zones are stored in the `lwc_admin_zones` table, under the Laravel Model `PaulinTrognon\LaravelWorldCities\Models\LwcAdminZones`
