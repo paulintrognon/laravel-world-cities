@@ -19,6 +19,7 @@ class LaravelWorldCitiesServiceProvider extends ServiceProvider
             $this->commands([
                 Commands\Download::class,
                 Commands\Seed::class,
+                Commands\ImportFrenchPostalCodes::class,
             ]);
         }
     }

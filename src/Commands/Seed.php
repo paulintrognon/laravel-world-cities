@@ -70,7 +70,7 @@ class Seed extends Command
                 case 'ADM2':
                 case 'ADM3':
                 case 'ADM4':
-                    $adminZones[] = [
+                    $zone = [
                         'id' => $line[0],
                         'name' => trim($line[1]),
                         'country_iso2' => $line[8],
@@ -82,6 +82,9 @@ class Seed extends Command
                         'latitude' => $line[4],
                         'longitude' => $line[5],
                     ];
+                    $zone['postal_code'] = $zone[$zone['type']];
+                    $adminZones[] = $zone;
+
                     $i++;
                     foreach (explode(',', $line[3]) as $alternateName) {
                         if (trim($alternateName) === '') {
@@ -110,6 +113,7 @@ class Seed extends Command
                         'adm2' => $line[11] ?? '',
                         'adm3' => $line[12] ?? '',
                         'adm4' => $line[13] ?? '',
+                        'postal_code' => $line[13] ?? $line[12] ?? $line[11] ?? $line[10],
                         'latitude' => $line[4],
                         'longitude' => $line[5],
                     ];
