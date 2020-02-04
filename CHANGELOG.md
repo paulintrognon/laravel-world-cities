@@ -1,6 +1,11 @@
+# v3.0.1
+
+- Fix french postal codes import
+
 # v3.0.0
 
-- Import postal codes
+- Postal codes col
+- French postal codes
 
 ## v2.2.0
 
