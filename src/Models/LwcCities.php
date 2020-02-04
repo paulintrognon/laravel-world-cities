@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class LwcCity extends Model
 {
     protected $table = 'lwc_cities';
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
