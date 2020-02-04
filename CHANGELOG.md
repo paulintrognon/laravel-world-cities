@@ -1,4 +1,8 @@
-# v3.0.1
+## v3.1.0
+
+- Add select2 plugin support for admin zones
+
+### v3.0.1
 
 - Fix french postal codes import
 
