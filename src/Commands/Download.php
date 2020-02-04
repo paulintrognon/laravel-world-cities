@@ -35,7 +35,7 @@ class Download extends Command
             $target = storage_path("app/geo/$fileName");
             $targetTxt = storage_path('app/geo/' . preg_replace('/\.zip/', '.txt', $fileName));
 
-            $this->info(" Source file {$source}" . PHP_EOL . " Target file {$targetTxt}");
+            $this->info(" Source file {$source} \n Target file {$targetTxt}");
 
            if (! (file_exists($target) || file_exists($targetTxt))) {
                 $this->info(" Downloading file {$fileName}");
