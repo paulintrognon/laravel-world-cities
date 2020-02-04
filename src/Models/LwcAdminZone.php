@@ -44,4 +44,57 @@ class LwcAdminZone extends Model
     {
         $query->where('type', 'adm4');
     }
+
+    // Helpers
+
+    public function nameWithPostalCode(array $excludeTypes = ['adm1'])
+    {
+        if (in_array($this->type, $excludeTypes)) {
+            return $this->name;
+        }
+        return "$this->name ($this->postal_code)";
+    }
+
+    // Static Helpers
+
+    /**
+     * For Select2 plugin
+     * https://select2.org/data-sources/ajax
+     */
+    public static function select2($searchText, array $params = [])
+    {
+        $countryIso2 = $params['countryIso2'] ?? null;
+        $type = $params['type'] ?? null;
+        $types = $params['types'] ?? null;
+
+        $query = self
+            ::where('postal_code', 'LIKE', "$searchText%")
+            ->orWherehas('alternateNames', function ($query) use ($searchText) {
+                $query->where('name', 'LIKE', "$searchText%");
+            });
+
+        if ($countryIso2 !== null) {
+            $query = $query->where('country_iso2', $countryIso2);
+        }
+        if ($type) {
+            $query = $query->where('type', $type);
+        }
+        if ($types) {
+            $query = $query->whereIn('type', $types);
+        }
+
+        $zones = $query
+            ->orderBy('postal_code')
+            ->take(100)
+            ->get();
+
+        $select = [];
+        foreach ($zones as $zone) {
+            $select[] = [
+                "id" => $zone->id,
+                "text" => $zone->nameWithPostalCode(),
+            ];
+        }
+        return $select;
+    }
 }
