@@ -1,3 +1,7 @@
+# v3.0.0
+
+- Import postal codes
+
 ## v2.2.0
 
 - Add select2 selection plugin support
