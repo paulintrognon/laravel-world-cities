@@ -38,6 +38,14 @@ This command will only work if you have not specified any countries in previous 
 php artisan lwc:seed --countries=US,GB
 ```
 
+### Import postal codes if you need to use them
+
+#### France
+
+```
+php artisan lwc:postalcodes:fr
+```
+
 ## Usage
 
 Cities are stored in the `lwc_cities` table, under the Laravel Model `PaulinTrognon\LaravelWorldCities\Models\LwcCity`
