@@ -1,3 +1,7 @@
+## v3.2.0
+
+- Add nameWithPostalCode for city model
+
 ## v3.1.0
 
 - Add select2 plugin support for admin zones
