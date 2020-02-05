@@ -25,6 +25,14 @@ class LwcCity extends Model
 
     // Helpers
 
+    public function nameWithPostalCode(array $excludeTypes = ['adm1'])
+    {
+        if (in_array($this->type, $excludeTypes)) {
+            return $this->name;
+        }
+        return "$this->name ($this->postal_code)";
+    }
+
     /**
      * For Select2 plugin
      * https://select2.org/data-sources/ajax
@@ -50,7 +58,7 @@ class LwcCity extends Model
         foreach ($cities as $city) {
             $select[] = [
                 "id" => $city->id,
-                "text" => "$city->name ($city->adm2)",
+                "text" => $city->nameWithPostalCode(),
             ];
         }
         return $select;
