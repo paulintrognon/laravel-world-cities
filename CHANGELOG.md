@@ -1,3 +1,7 @@
+### v3.2.1
+
+- Boost display frequency of city names when importing french postal codes
+
 ## v3.2.0
 
 - Add nameWithPostalCode for city model
