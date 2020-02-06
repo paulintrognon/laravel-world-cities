@@ -41,9 +41,10 @@ class LwcCity extends Model
     {
         $countryIso2 = $params['countryIso2'] ?? null;
 
-        $citiesQuery = self::wherehas('alternateNames', function ($query) use ($searchText) {
-            $query->where('name', 'LIKE', "$searchText%");
-        });
+        $citiesQuery = self::where('name', 'LIKE', "$searchText%")
+            ->orWherehas('alternateNames', function ($query) use ($searchText) {
+                $query->where('name', 'LIKE', "$searchText%");
+            });
 
         if ($countryIso2 !== null) {
             $citiesQuery = $citiesQuery->where('country_iso2', $countryIso2);
