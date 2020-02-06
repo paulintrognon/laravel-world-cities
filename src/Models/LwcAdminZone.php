@@ -69,6 +69,7 @@ class LwcAdminZone extends Model
 
         $query = self
             ::where('postal_code', 'LIKE', "$searchText%")
+            ->orWhere('name', 'LIKE', "$searchText%")
             ->orWherehas('alternateNames', function ($query) use ($searchText) {
                 $query->where('name', 'LIKE', "$searchText%");
             });

@@ -1,3 +1,7 @@
+### v3.2.2
+
+- Fix select2 search of zones & cities
+
 ### v3.2.1
 
 - Boost display frequency of city names when importing french postal codes
