@@ -49,6 +49,9 @@ class ImportFrenchPostalCodes extends Command
         ProgressBar::setFormatDefinition('custom', ' %current%/%max%% -- %message%');
         $progressBar = new ProgressBar($this->output, 100);
         $progressBar->setFormat('custom');
+        $progressBar->setRedrawFrequency(100);
+        $progressBar->maxSecondsBetweenRedraws(0.05);
+        $progressBar->minSecondsBetweenRedraws(0.01);
 
         // We skip line 1
         fgets($handle);
